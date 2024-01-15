@@ -1,0 +1,24 @@
+{
+  "name": "advanced-git",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "main": "markdown.config.mjs",
+  "scripts": {
+    "postinstall": "lefthook install",
+    "docs": "node markdown.config.mjs"
+  },
+  "keywords": [
+    "git"
+  ],
+  "author": "jaem1n207 (github.com/jaem1n207)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jaem1n207/advanced-git.git"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "lefthook": "^1.5.6",
+    "markdown-magic": "^2.6.1"
+  }
+}

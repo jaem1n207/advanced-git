@@ -1,0 +1,6 @@
+pre-commit:
+  commands:
+    docs:
+      tags: create TOC for README.md
+      glob: 'README.md'
+      run: pnpm run docs

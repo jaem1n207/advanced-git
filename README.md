@@ -32,18 +32,26 @@ Git의 다양한 기능을 심도 있게 다루고 공부한 것들을 정리해
 
 이제 기존 브랜치의 커밋 로그를 더럽히지 않고 안전하게 브랜치를 변경할 수 있게 되었습니다. 작업을 끝내고 다시 `feat/1` 브랜치로 돌아와서 **저장해둔 코드를 불러오고 싶다면** `git stash apply`를 실행하면 저장된 코드를 쉽게 불러올 수 있습니다.
 
-`stash`를 여러 번 실행했었고 그 중 **가장 최근** stash를 적용하고 싶다면 아래처럼 하면 됩니다.
+`stash`를 여러 번 실행했었고 그 중 **가장 최근** stash를 적용하고 싶다면 아래처럼 하면 됩니다:
 
 ```bash
 git stash list
-stash@{0}: WIP on test/stash: 1fe8781 test: ff-only2
-stash@{1}: WIP on test/stash: 1fe8781 test: ff-only2
-stash@{2}: WIP on test/stash: 1fe8781 test: ff-only2
+> stash@{0}: WIP on test/stash: 1fe8781 test: ff-only2
+> stash@{1}: WIP on test/stash: 1fe8781 test: ff-only2
+> stash@{2}: WIP on test/stash: 1fe8781 test: ff-only2
 
 git stash apply stash@{0}
 ```
 
-만약 저장되어 있는 일부 stash를 제거하고 싶다면 `git drop`을 실행하여 stash를 개별적으로 제거하거나, `git stash clear`를 사용하여 모든 stash를 제거할 수 있습니다.
+stash로 저장된 커밋을 **새로운 브랜치에 적용**하고 싶다면 아래처럼 하면 됩니다:
+
+```bash
+git stash branch new-branch-name
+> 새로 만든 'new-branch-name' 브랜치로 전환합니다
+> 현재 브랜치 new-branch-name
+```
+
+만약 저장되어 있는 일부 stash를 **제거**하고 싶다면 `git drop`을 실행하여 stash를 개별적으로 제거하거나, `git stash clear`를 사용하여 모든 stash를 제거할 수 있습니다.
 
 ## Merge와 Rebase
 

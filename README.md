@@ -138,6 +138,24 @@ git rebase -i ${수정할 커밋의 이전 커밋}
 
 `git rebase -i` 명령어를 사용하면 대화형 모드로 들어갑니다. 이때 내가 수정하고 싶은 커밋의 이전 커밋을 기준으로 실행해야 합니다. 예를 들어, `A` 커밋이 `HEAD~3`라면 `HEAD~4`를 사용합니다. 커밋 해시를 기준으로 입력할 수도 있습니다.
 
+입력하고 나면 아래 이미지처럼 출력되는 `vi` 편집기를 볼 수 있습니다.
+
+<p align="center">
+  <img width='480' src="./images/rebase/rebase-interative-mode.webp">
+</p>
+
+각 라인은 `[명령어] [커밋 해시] [커밋 메시지]` 순서대로 구성되어 있습니다. 아래 주석에선 각 커밋에 사용할 수 있는 명령어들의 목록과 역할을 확인할 수 있습니다.
+
+여기서 `squash`와 `fixup`이 **특정 커밋을 이전 커밋과 합치는** 명령어입니다. `squash`는 각 커밋들의 메시지가 합쳐지는 반면, `fixup` 은 이전의 커밋 메시지만 남기는 차이점이 있습니다.
+
+이전 커밋 메시지만 남기면 되므로 `fixup`을 사용해보겠습니다.
+
+<p align="center">
+  <img width='480' src="./images/rebase/fixup.webp">
+</p>
+
+합쳐지길 원하는 커밋을 찾아 `pick`을 `fixup`으로 변경했습니다.
+
 ## Merge와 Rebase
 
 `merge`와 `rebase` 명령은 서로 다른 브랜치의 커밋을 합칩니다.
@@ -146,3 +164,9 @@ git rebase -i ${수정할 커밋의 이전 커밋}
 
 > [!NOTE]  
 > **스쿼시**는 여러 개의 커밋 기록을 하나의 커밋 기록으로 합치는 방법입니다. 주로 팀원들과 PR에서 변경 사항에 대해 논의하기 전에 커밋 기록을 정리하고 단순화하는 데 사용합니다.
+
+## 참고
+
+- [Git Docs](https://git-scm.com/doc)
+- ['Outsider'님의 Merge vs Rebase vs Squash](https://blog.outsider.ne.kr/1704?category=0)
+- ['재그지그'님의 Git rebase with interactive](https://wormwlrm.github.io/2020/09/03/Git-rebase-with-interactive-option.html#squash-fixup)

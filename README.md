@@ -23,10 +23,11 @@
 
 - [Git Stash](#git-stash)
 - [Git Reset](#git-reset)
+- [Git Merge](#git-merge)
+- [Git Rebase](#git-rebase)
+- [상황에 맞게 사용하는 Merge, Rebase, Squash](#%EC%83%81%ED%99%A9%EC%97%90-%EB%A7%9E%EA%B2%8C-%EC%82%AC%EC%9A%A9%ED%95%98%EB%8A%94-merge-rebase-squash)
 - [마지막 커밋을 수정하는 방법](#%EB%A7%88%EC%A7%80%EB%A7%89-%EC%BB%A4%EB%B0%8B%EC%9D%84-%EC%88%98%EC%A0%95%ED%95%98%EB%8A%94-%EB%B0%A9%EB%B2%95)
 - [여러 개의 커밋 메시지를 수정하고 싶은 경우](#%EC%97%AC%EB%9F%AC-%EA%B0%9C%EC%9D%98-%EC%BB%A4%EB%B0%8B-%EB%A9%94%EC%8B%9C%EC%A7%80%EB%A5%BC-%EC%88%98%EC%A0%95%ED%95%98%EA%B3%A0-%EC%8B%B6%EC%9D%80-%EA%B2%BD%EC%9A%B0)
-- [Merge와 Rebase](#merge%EC%99%80-rebase)
-- [상황에 맞게 사용하는 Merge, Rebase, Squash](#%EC%83%81%ED%99%A9%EC%97%90-%EB%A7%9E%EA%B2%8C-%EC%82%AC%EC%9A%A9%ED%95%98%EB%8A%94-merge-rebase-squash)
 - [참고](#%EC%B0%B8%EA%B3%A0)
 
 </details>
@@ -78,10 +79,18 @@ git reset --soft HEAD~1
 ```
 
 여기서 `--soft` 옵션을 사용했는데 이는 HEAD가 가리키는 브랜치를 이동시키는 것까지만 진행합니다.
+<small>`--hard` 옵션도 있으며 작동 원리 등 자세한 내용은 [Git 공식 문서](https://git-scm.com/book/ko/v2/Git-%EB%8F%84%EA%B5%AC-Reset-%EB%AA%85%ED%99%95%ED%9E%88-%EC%95%8C%EA%B3%A0-%EA%B0%80%EA%B8%B0)에서 확인해주세요.</small>
 
-WIP...
+## Git Merge
 
-작동 원리 등 자세한 내용은 [Git 공식 문서](https://git-scm.com/book/ko/v2/Git-%EB%8F%84%EA%B5%AC-Reset-%EB%AA%85%ED%99%95%ED%9E%88-%EC%95%8C%EA%B3%A0-%EA%B0%80%EA%B8%B0)에서 확인해주세요.
+## Git Rebase
+
+`merge`와 `rebase` 명령은 서로 다른 브랜치의 커밋을 합칩니다.
+
+## 상황에 맞게 사용하는 Merge, Rebase, Squash
+
+> [!NOTE]  
+> **스쿼시**는 여러 개의 커밋 기록을 하나의 커밋 기록으로 합치는 방법입니다. 주로 팀원들과 PR에서 변경 사항에 대해 논의하기 전에 커밋 기록을 정리하고 단순화하는 데 사용합니다.
 
 ## 마지막 커밋을 수정하는 방법
 
@@ -130,7 +139,7 @@ git commit --amend --no-edit
 어떻게 사용하는지 살펴보겠습니다. 아래 이미지는 수정 전 커밋 로그입니다. 여기서 `A 변수명 다시 수정` 커밋을 `A 변수명 수정` 커밋과 합쳐보겠습니다
 
 <p align="center">
-  <img width='480' src="./images/rebase/duplicate-commit-msg.webp">
+  <img width='480' src="./images/rebase/duplicate-msg.webp">
 </p>
 
 ```bash
@@ -142,7 +151,7 @@ git rebase -i ${수정할 커밋의 이전 커밋}
 입력하고 나면 아래 이미지처럼 출력되는 `vi` 편집기를 볼 수 있습니다.
 
 <p align="center">
-  <img width='480' src="./images/rebase/rebase-interative-mode.webp">
+  <img width='480' src="./images/rebase/rebase-vi-editor.webp">
 </p>
 
 각 라인은 `[명령어] [커밋 해시] [커밋 메시지]` 순서대로 구성되어 있습니다. 아래 주석에선 각 커밋에 사용할 수 있는 명령어들의 목록과 역할을 확인할 수 있습니다.
@@ -152,19 +161,22 @@ git rebase -i ${수정할 커밋의 이전 커밋}
 이전 커밋 메시지만 남기면 되므로 `fixup`을 사용해보겠습니다.
 
 <p align="center">
-  <img width='480' src="./images/rebase/fixup.webp">
+  <img width='480' src="./images/rebase/fixup-command.webp">
 </p>
 
-합쳐지길 원하는 커밋을 찾아 `pick`을 `fixup`으로 변경했습니다.
+합쳐지길 원하는 커밋을 찾아 `pick`을 `fixup`으로 변경했습니다. 그리고 `A 변수명 다시 수정` 커밋을 **`A 변수명 수정` 커밋 바로 아래로 이동**시켰습니다. 이후 변경사항을 저장하고 편집기를 종료합니다.
 
-## Merge와 Rebase
+똑같은 라인의 변수명을 수정했으므로 `rebase` 중에 **충돌이 발생**했습니다. 해결 후 `git rebase --continue` 명령어를 입력해 계속 진행해줍니다. 이때 주의할 점은, **이미 원격 레포에 푸시된 브랜치의 커밋을 로컬에서 `rebase`해서 푸시하는 경우**는 없어야 합니다. `rebase`는 기존의 커밋을 재사용하는 것이 아니라, 내용이 같은 커밋을 새로 만들기 때문입니다. 즉, 원격 브랜치를 베이스로 작업하고 있던 동료의 커밋 로그를 깨뜨리거나 작업본을 날려먹을 수도 있으니 항상 주의해야 합니다.
 
-`merge`와 `rebase` 명령은 서로 다른 브랜치의 커밋을 합칩니다.
+<p align="center">
+  <img width='480' src="./images/rebase/rebase-continue.webp">
+</p>
 
-## 상황에 맞게 사용하는 Merge, Rebase, Squash
+두 커밋이 합쳐져 커밋 로그가 깨끗하게 정리된 것을 볼 수 있습니다.
 
-> [!NOTE]  
-> **스쿼시**는 여러 개의 커밋 기록을 하나의 커밋 기록으로 합치는 방법입니다. 주로 팀원들과 PR에서 변경 사항에 대해 논의하기 전에 커밋 기록을 정리하고 단순화하는 데 사용합니다.
+<p align="center">
+  <img width='480' src="./images/rebase/rebase-finish.webp">
+</p>
 
 ## 참고
 

@@ -22,19 +22,22 @@
 - [요약](#%EC%9A%94%EC%95%BD)
   - [Git Stash](#git-stash)
   - [Git Reset](#git-reset)
+  - [Git Merge](#git-merge)
+  - [Git Rebase](#git-rebase)
+  - [Git Reflog](#git-reflog)
   - [커밋을 수정하는 방법](#%EC%BB%A4%EB%B0%8B%EC%9D%84-%EC%88%98%EC%A0%95%ED%95%98%EB%8A%94-%EB%B0%A9%EB%B2%95)
 - [Git Stash](#git-stash-1)
 - [Git Reset](#git-reset-1)
 - [Git Bisect](#git-bisect)
-- [Git Merge](#git-merge)
+- [Git Merge](#git-merge-1)
   - [기본 사용법](#%EA%B8%B0%EB%B3%B8-%EC%82%AC%EC%9A%A9%EB%B2%95)
   - [충돌 해결](#%EC%B6%A9%EB%8F%8C-%ED%95%B4%EA%B2%B0)
   - [Fast-Forward 병합](#fast-forward-%EB%B3%91%ED%95%A9)
   - [No-Fast-Forward 병합](#no-fast-forward-%EB%B3%91%ED%95%A9)
   - [Squash 병합](#squash-%EB%B3%91%ED%95%A9)
   - [실무에서의 사용 예시](#%EC%8B%A4%EB%AC%B4%EC%97%90%EC%84%9C%EC%9D%98-%EC%82%AC%EC%9A%A9-%EC%98%88%EC%8B%9C)
-- [Git Rebase](#git-rebase)
-- [Git Reflog](#git-reflog)
+- [Git Rebase](#git-rebase-1)
+- [Git Reflog](#git-reflog-1)
 - [상황에 맞게 사용하는 Merge, Rebase, Squash](#%EC%83%81%ED%99%A9%EC%97%90-%EB%A7%9E%EA%B2%8C-%EC%82%AC%EC%9A%A9%ED%95%98%EB%8A%94-merge-rebase-squash)
 - [마지막 커밋을 수정하는 방법](#%EB%A7%88%EC%A7%80%EB%A7%89-%EC%BB%A4%EB%B0%8B%EC%9D%84-%EC%88%98%EC%A0%95%ED%95%98%EB%8A%94-%EB%B0%A9%EB%B2%95)
 - [여러 개의 커밋 메시지를 수정하고 싶은 경우](#%EC%97%AC%EB%9F%AC-%EA%B0%9C%EC%9D%98-%EC%BB%A4%EB%B0%8B-%EB%A9%94%EC%8B%9C%EC%A7%80%EB%A5%BC-%EC%88%98%EC%A0%95%ED%95%98%EA%B3%A0-%EC%8B%B6%EC%9D%80-%EA%B2%BD%EC%9A%B0)
@@ -59,6 +62,32 @@
 - `git reset`을 사용하여 커밋을 초기화할 수 있습니다.
 - 주로 실수로 커밋한 지저분한 코드를 수정할 때 유용합니다.
 - `git reset --soft HEAD~1`을 사용하여 최근 커밋을 초기화하면서 변경 사항을 유지할 수 있습니다.
+
+### Git Merge
+
+`git merge` 명령어는 두 개의 브랜치를 하나로 합치는 데 사용됩니다. 기본적인 사용법은 다음과 같습니다:
+
+```bash
+git checkout main
+git merge feature
+```
+
+`git merge`는 fast-forward, no-fast-forward, squash 등 다양한 옵션을 제공하며, 실무에서는 주로 기능 개발의 완료나 배포 전략에 활용됩니다.
+
+### Git Rebase
+
+가장 유용하게 사용하고 있는 명령어입니다. `git rebase` 명령어는 주로 커밋 로그를 다루기 위해 사용되며, 기능 브랜치를 메인 코드 베이스에 병합하기 전 로그를 정리할 수 있습니다. 기본적인 사용법은 다음과 같습니다:
+
+```bash
+git checkout feature_branch
+git rebase main_branch
+```
+
+충돌이 발생하면 충돌을 해결하고 계속 진행합니다. `rebase` 후에는 fast-forward 병합을 통해 선형 로그를 유지할 수 있습니다.
+
+### Git Reflog
+
+`git reflog` 명령어는 Git의 내부 로그로 HEAD와 브랜치의 변경 이력을 확인할 수 있습니다. 주로 **실수로 삭제한 커밋을 복구**하거나, `rebase` 등으로 인한 문제를 해결하는 데 활용됩니다. 커밋을 복구하려면 `git reset --hard HEAD@{n}` 명령어를 사용하면 됩니다. 주의: `git reflog`는 로컬 저장소에만 존재하므로 복구 후에는 강제 푸시가 필요할 수 있습니다.
 
 ### 커밋을 수정하는 방법
 

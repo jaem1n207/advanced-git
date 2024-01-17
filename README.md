@@ -19,36 +19,38 @@
 <details>
 <summary>자세히 보려면 클릭하세요</summary>
 
-- [요약](#%EC%9A%94%EC%95%BD)
-  - [커밋을 수정하는 방법](#%EC%BB%A4%EB%B0%8B%EC%9D%84-%EC%88%98%EC%A0%95%ED%95%98%EB%8A%94-%EB%B0%A9%EB%B2%95)
-  - [Git Stash](#git-stash)
-  - [Git Reset](#git-reset)
-  - [Git Bisect](#git-bisect)
-  - [Git Merge](#git-merge)
-  - [Git Rebase](#git-rebase)
-  - [Git Reflog](#git-reflog)
-- [Git Stash](#git-stash-1)
-- [Git Reset](#git-reset-1)
-  - [--soft 옵션](#--soft-%EC%98%B5%EC%85%98)
-  - [--hard 옵션](#--hard-%EC%98%B5%EC%85%98)
-  - [--mixed 옵션](#--mixed-%EC%98%B5%EC%85%98)
-  - [실무에서의 사용 예시](#%EC%8B%A4%EB%AC%B4%EC%97%90%EC%84%9C%EC%9D%98-%EC%82%AC%EC%9A%A9-%EC%98%88%EC%8B%9C)
-- [Git Bisect](#git-bisect-1)
-- [Git Merge](#git-merge-1)
-  - [기본 사용법](#%EA%B8%B0%EB%B3%B8-%EC%82%AC%EC%9A%A9%EB%B2%95)
-  - [충돌 해결](#%EC%B6%A9%EB%8F%8C-%ED%95%B4%EA%B2%B0)
-  - [Fast-Forward 병합](#fast-forward-%EB%B3%91%ED%95%A9)
-  - [No-Fast-Forward 병합](#no-fast-forward-%EB%B3%91%ED%95%A9)
-  - [Squash 병합](#squash-%EB%B3%91%ED%95%A9)
-  - [실무에서의 사용 예시](#%EC%8B%A4%EB%AC%B4%EC%97%90%EC%84%9C%EC%9D%98-%EC%82%AC%EC%9A%A9-%EC%98%88%EC%8B%9C-1)
-- [Git Rebase](#git-rebase-1)
-- [Git Squash](#git-squash)
-- [마지막 커밋을 수정하는 방법](#%EB%A7%88%EC%A7%80%EB%A7%89-%EC%BB%A4%EB%B0%8B%EC%9D%84-%EC%88%98%EC%A0%95%ED%95%98%EB%8A%94-%EB%B0%A9%EB%B2%95)
-- [여러 개의 커밋 메시지를 수정하고 싶은 경우](#%EC%97%AC%EB%9F%AC-%EA%B0%9C%EC%9D%98-%EC%BB%A4%EB%B0%8B-%EB%A9%94%EC%8B%9C%EC%A7%80%EB%A5%BC-%EC%88%98%EC%A0%95%ED%95%98%EA%B3%A0-%EC%8B%B6%EC%9D%80-%EA%B2%BD%EC%9A%B0)
-- [Git Reflog](#git-reflog-1)
-- [상황에 맞게 사용하는 Merge, Rebase, Squash](#%EC%83%81%ED%99%A9%EC%97%90-%EB%A7%9E%EA%B2%8C-%EC%82%AC%EC%9A%A9%ED%95%98%EB%8A%94-merge-rebase-squash)
-- [마무리](#%EB%A7%88%EB%AC%B4%EB%A6%AC)
-- [참고](#%EC%B0%B8%EA%B3%A0)
+- [Git 활용 잘해보기](#git-활용-잘해보기)
+  - [목차](#목차)
+  - [요약](#요약)
+    - [커밋을 수정하는 방법](#커밋을-수정하는-방법)
+    - [Git Stash](#git-stash)
+    - [Git Reset](#git-reset)
+    - [Git Bisect](#git-bisect)
+    - [Git Merge](#git-merge)
+    - [Git Rebase](#git-rebase)
+    - [Git Reflog](#git-reflog)
+  - [Git Stash](#git-stash-1)
+  - [Git Reset](#git-reset-1)
+    - [--soft 옵션](#--soft-옵션)
+    - [--hard 옵션](#--hard-옵션)
+    - [--mixed 옵션](#--mixed-옵션)
+    - [실무에서의 사용 예시](#실무에서의-사용-예시)
+  - [Git Bisect](#git-bisect-1)
+  - [Git Merge](#git-merge-1)
+    - [기본 사용법](#기본-사용법)
+    - [충돌 해결](#충돌-해결)
+    - [Fast-Forward 병합](#fast-forward-병합)
+    - [No-Fast-Forward 병합](#no-fast-forward-병합)
+    - [Squash 병합](#squash-병합)
+    - [실무에서의 사용 예시](#실무에서의-사용-예시-1)
+  - [Git Rebase](#git-rebase-1)
+  - [Git Squash](#git-squash)
+  - [Git Reflog](#git-reflog-1)
+  - [마지막 커밋을 수정하는 방법](#마지막-커밋을-수정하는-방법)
+  - [여러 개의 커밋 메시지를 수정하고 싶은 경우](#여러-개의-커밋-메시지를-수정하고-싶은-경우)
+  - [상황에 맞게 사용하는 Merge, Rebase, Squash](#상황에-맞게-사용하는-merge-rebase-squash)
+  - [마무리](#마무리)
+  - [참고](#참고)
 
 </details>
 <!-- CUSTOM-AUTO-GENERATED-CONTENT:END -->
@@ -533,11 +535,66 @@ git rebase -i <base>
 - 캐러셀 크로스 브라우징 해결
 - 캐러셀 여백 조정
 
-5개의 커밋을 만들었지만 모두 하나의 기능과 관련이 있습니다. 각 커밋들도 이 새로운 기능과 관한 것이기에 서로 분리하기에는 애매합니다.
+5개의 커밋을 만들었지만 모두 하나의 기능과 관련이 있습니다. 각 커밋들도 이 새로운 기능에 관한 것이기에 서로 분리하기에는 애매합니다.
+
+`git merge --squash`를 사용할 수도 있지만, `cherry-pick`을 사용해 커밋을 가져올 때 커밋 설명이 더 단순하고 시각적으로 설정하기 쉬운 `git rebase -i`를 사용하는 것이 편하다고 생각합니다.
+
+```bash
+# git merge를 사용한 방식
+git merge --squash <브랜치명>
+# git rebase -i를 사용한 방식
+git rebase -i HEAD~3
+
+pick 123abcd 캐러셀 구현
+squash 234bcde 캐러셀 슬라이더 구현
+squash 345cdef 캐러셀 스타일 정의
+```
+
+어떤 방식으로 하던 git 로그를 살펴보면 비교적 작은 차이의 여러 커밋이 하나의 목표를 지향하는 하나의 커밋이 된 것을 확인할 수 있습니다. 덕분에 변경 사항을 쉽게 추적할 수 있게 되었고 문제가 생겼을 때 과감하게 `revert`할 수 있습니다. 덤으로 모든 커밋이 이렇게 된다면 `git bisect`를 더 유용하게 사용할 수 있게 되겠죠.
+
+## Git Reflog
+
+`git reflog` 명령어는 **Git의 내부 로그인 reflog를 확인**할 수 있게 해주며, 이는 모든 HEAD의 변경사항과 브랜치의 업데이트를 기록합니다. 이 명령어는 실수로 커밋을 잃어버렸거나 `rebase`와 같은 작업으로 인해 커밋이 사라진 것처럼 보일 때 이를 복구하는 데 유용하게 사용할 수 있습니다.
+
+예를 들어, `rebase`를 실행했는데 중요한 커밋을 잘못 삭제했다고 가정해 봅시다. 이런 경우 `git reflog`를 사용하여 삭제된 커밋을 찾아 복구할 수 있습니다.
+
+먼저 `git reflog`를 실행하여 최근에 변경된 HEAD의 목록을 확인합니다.
+
+```bash
+git reflog
+```
+
+출력 결과는 다음과 같을 수 있습니다:
+
+```bash
+1c002dd (HEAD -> main, origin/main, origin/HEAD) HEAD@{0}: merge feat/1: Fast-forward
+ab1c2ef HEAD@{1}: commit: Fix typo in README
+...
+d34db33 HEAD@{5}: rebase (start): checkout main
+c0ffee1 HEAD@{6}: commit: Add feature 1
+...
+```
+
+여기서 `HEAD@{6}`은 `Add feature 1`라는 메시지를 가진 커밋을 나타냅니다. 이 커밋을 잘못 삭제했다면, 해당 커밋으로 되돌아갈 수 있습니다.
+`HEAD@{6}` 형식에 대해 조금 더 자세히 설명해 보자면, `HEAD@{6}`은 "여섯 번 이동하기 전에 HEAD가 있던 곳", `master@{one.week.ago}`는 "이 로컬 레포에서 일주일 전에 master가 가리키던 곳" 등을 의미합니다. 자세한 건 [git revisions](https://git-scm.com/docs/gitrevisions)를 참고해 주세요.
+
+```bash
+git rebase --abort
+```
+
+위 명령어로 `rebase`를 취소할 수 없는 경우에는 `git reflog`를 사용하여 `rebase` 이전 상태로 되돌아갈 수 있습니다.
+
+```bash
+git reset --hard HEAD@{n}
+```
+
+여기서 `n`은 `rebase`를 시작하기 전의 `HEAD` 위치입니다.
+
+`git reflog`는 기본적으로 **로컬 저장소에만 존재**하며, 원격 저장소에는 반영되지 않습니다. 따라서 로컬에서 실수로 커밋을 잃어버렸을 때 복구하는 데 유용합니다. 하지만 `git reflog`를 사용하여 복구한 후에는 원격 저장소에 강제 푸시(`git push --force`)를 해야 할 수도 있으니, 마찬가지로 주의가 필요합니다.
 
 ## 마지막 커밋을 수정하는 방법
 
-보통 커밋 로그를 관리하는 일 중 **마지막 커밋을 수정**하는 상황이 가장 잦습니다.(저만 그런 걸수도 있고요) 크게 두 가지로 나눌 수 있습니다:
+보통 커밋 로그를 관리하는 일 중 **마지막 커밋을 수정**하는 상황이 가장 잦습니다.(저만 그런 걸 수도 있고요) 크게 두 가지로 나눌 수 있습니다:
 
 1. 커밋 메시지만 수정
 2. 나중에 수정한 파일을 다른 커밋 안에 밀어 넣는 작업
@@ -613,8 +670,6 @@ git rebase -i ${수정할 커밋의 이전 커밋}
 
 이때 주의할 점은, **이미 원격 레포에 푸시된 브랜치의 커밋을 로컬에서 `rebase`해서 푸시하는 경우**는 없어야 합니다. `rebase`는 기존의 커밋을 재사용하는 것이 아니라, 내용이 같은 커밋을 새로 만들기 때문입니다. 즉, 원격 브랜치를 베이스로 작업하고 있던 동료의 커밋 로그를 깨뜨리거나 작업 본을 날려 먹을 수도 있으니 항상 주의해야 합니다.
 
-물론 `git reflog`를 사용하면 커밋을 복원하고 전체 rebase를 실행 취소할 수 있습니다. 손실된 커밋을 찾는 방법에 대한 자세한 내용은 [git reflog 섹션](#git-reflog)에서 확인해 주세요.
-
 <p align="center">
   <img width='480' src="./images/rebase/rebase-continue.webp">
 </p>
@@ -625,52 +680,23 @@ git rebase -i ${수정할 커밋의 이전 커밋}
   <img width='480' src="./images/rebase/rebase-finish.webp">
 </p>
 
-## Git Reflog
-
-`git reflog` 명령어는 **Git의 내부 로그인 reflog를 확인**할 수 있게 해주며, 이는 모든 HEAD의 변경사항과 브랜치의 업데이트를 기록합니다. 이 명령어는 실수로 커밋을 잃어버렸거나 `rebase`와 같은 작업으로 인해 커밋이 사라진 것처럼 보일 때 이를 복구하는 데 유용하게 사용할 수 있습니다.
-
-예를 들어, `rebase`를 실행했는데 중요한 커밋을 잘못 삭제했다고 가정해 봅시다. 이런 경우 `git reflog`를 사용하여 삭제된 커밋을 찾아 복구할 수 있습니다.
-
-먼저 `git reflog`를 실행하여 최근에 변경된 HEAD의 목록을 확인합니다.
-
-```bash
-git reflog
-```
-
-출력 결과는 다음과 같을 수 있습니다:
-
-```bash
-1c002dd (HEAD -> main, origin/main, origin/HEAD) HEAD@{0}: merge feat/1: Fast-forward
-ab1c2ef HEAD@{1}: commit: Fix typo in README
-...
-d34db33 HEAD@{5}: rebase (start): checkout main
-c0ffee1 HEAD@{6}: commit: Add feature 1
-...
-```
-
-여기서 `HEAD@{6}`은 `Add feature 1`라는 메시지를 가진 커밋을 나타냅니다. 이 커밋을 잘못 삭제했다면, 해당 커밋으로 되돌아갈 수 있습니다.
-`HEAD@{6}` 형식에 대해 조금 더 자세히 설명해 보자면, `HEAD@{6}`은 "여섯 번 이동하기 전에 HEAD가 있던 곳", `master@{one.week.ago}`는 "이 로컬 레포에서 일주일 전에 master가 가리키던 곳" 등을 의미합니다. 자세한 건 [git revisions](https://git-scm.com/docs/gitrevisions)를 참고해 주세요.
-
-```bash
-git rebase --abort
-```
-
-위 명령어로 `rebase`를 취소할 수 없는 경우에는 `git reflog`를 사용하여 `rebase` 이전 상태로 되돌아갈 수 있습니다.
-
-```bash
-git reset --hard HEAD@{n}
-```
-
-여기서 `n`은 `rebase`를 시작하기 전의 `HEAD` 위치입니다.
-
-`git reflog`는 기본적으로 **로컬 저장소에만 존재**하며, 원격 저장소에는 반영되지 않습니다. 따라서 로컬에서 실수로 커밋을 잃어버렸을 때 복구하는 데 유용합니다. 하지만 `git reflog`를 사용하여 복구한 후에는 원격 저장소에 강제 푸시(`git push --force`)를 해야 할 수도 있으니 마찬가지로 주의가 필요합니다.
-
 ## 상황에 맞게 사용하는 Merge, Rebase, Squash
 
-> [!NOTE]  
-> **스쿼시**는 여러 개의 커밋 기록을 하나의 커밋 기록으로 합치는 방법입니다. 주로 팀원들과 PR에서 변경 사항에 대해 논의하기 전에 커밋 기록을 정리하고 단순화하는 데 사용합니다.
+해당 섹션은 **[HashiCorp](https://www.hashicorp.com/)의 공동창업자인 [Mitchell Hashimoto](https://gist.github.com/mitchellh)가 얼마 전 작성한 [Merge vs. Rebase vs. Squash](https://gist.github.com/mitchellh/319019b1b8aac9110fcfb1862e0c97fb) 글을 번역**한 것입니다. 너무 좋은 글이라 여기에 정리해봅니다. Mitchell Hashimoto가 작성한 `Merge vs. Rebase vs. Squash` 내용을 기반으로 Outsider님이 작성하신 [글](https://blog.outsider.ne.kr/1704)도 정말 유용하니 꼭 한 번 보시길 바랍니다.
 
-WIP...
+> 병합하는 방법은 여러 종류가 있습니다. 각각의 장점이 있으며 상황에 따라 유연하게 사용하면 됩니다.
+>
+> Merge 커밋을 만드는 것이 로그를 가장 잘 표현한다고 생각하기 때문에 Merge를 선호합니다. 병합 지점을 쉽게 볼 수 있고, 개발자가 수행한 모든 WIP 커밋을 볼 수 있습니다. 즉, 전체 병합을 쉽게 되돌릴 수 있습니다(git revert -mN).
+>
+> 또한 모든 커밋이 빌드된다면 커밋이 많을수록 git bisect가 좋아진다고 생각합니다. 이상적으로 +50/-50에 가까운 커밋을 유지하는 것이 좋습니다. 그러면 리뷰 단계에서 버그의 존재를 파악할 수 있습니다.
+>
+> 단, 이 전략은 개발자가 모든 커밋을 잘 관리해야만 성공할 수 있습니다. 일반적으로 함께 일하는 개발자가 모든 커밋을 빌드 가능한 상태로 유지하기를 기대했습니다.
+>
+> PR에 수많은 "WIP" 커밋이 있지만 실제로는 비교적 작은 차이로 하나의 목표를 지향하는 경우에는 Squash를 합니다. Git과 Github에서 기본적으로 제공하는 커밋 메시지는 좋지 않아 Squash를 할 때 커밋 메시지를 새로 작성합니다.
+>
+> PR에 "WIP"가 많은데 각 커밋의 차이가 크다면 인터랙티브 Rebase로 커밋을 Squash하고 순서를 변경합니다. 개발자들이 커밋 관리에 신경 쓰기를 기대하지만, 안타깝게도 많은 개발자가 GIt에 익숙하지 않습니다.
+>
+> 마지막으로, 대규모 인터랙티브 Rebase 작업 시 Git GUI 클라이언트를 사용하는 편입니다. GIT CLI에 매우 익숙하더라도, 변경된 라인이 많은 대규모 PR(ex: 50개 이상의 커밋)을 인터랙티브하게 Rebase할 때는 GUI를 사용하는 것이 유용합니다. macOS를 사용해서 Tower를 사용하고 있다. 하지만 이 상황을 제외하곤 GUI를 사용하지 않습니다.
 
 ## 마무리
 

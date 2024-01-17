@@ -20,12 +20,12 @@
 <summary>자세히 보려면 클릭하세요</summary>
 
 - [요약](#%EC%9A%94%EC%95%BD)
+  - [커밋을 수정하는 방법](#%EC%BB%A4%EB%B0%8B%EC%9D%84-%EC%88%98%EC%A0%95%ED%95%98%EB%8A%94-%EB%B0%A9%EB%B2%95)
   - [Git Stash](#git-stash)
   - [Git Reset](#git-reset)
   - [Git Merge](#git-merge)
   - [Git Rebase](#git-rebase)
   - [Git Reflog](#git-reflog)
-  - [커밋을 수정하는 방법](#%EC%BB%A4%EB%B0%8B%EC%9D%84-%EC%88%98%EC%A0%95%ED%95%98%EB%8A%94-%EB%B0%A9%EB%B2%95)
 - [Git Stash](#git-stash-1)
 - [Git Reset](#git-reset-1)
 - [Git Bisect](#git-bisect)
@@ -52,6 +52,13 @@
 <details>
 <summary>자세히 보려면 클릭하세요</summary>
 
+### 커밋을 수정하는 방법
+
+- `git commit --amend`를 사용하여 최신 로그 메시지를 변경할 수 있습니다.
+- `git commit --amend`를 사용하여 가장 최근 커밋을 수정할 수 있습니다.
+- `git rebase`를 사용하여 커밋을 합치고 로그를 수정할 수 있습니다.
+- `git rebase -i`를 사용하면 로그 수정 시 표준 `git rebase`보다 훨씬 정밀한 제어가 가능할 수 있습니다.
+
 ### Git Stash
 
 - `git stash`를 사용하여 작업을 저장하고 나중에 불러올 수 있습니다.
@@ -60,11 +67,15 @@
 - 저장된 작업을 새로운 브랜치에 적용하려면 `git stash branch <브랜치 이름>`을 사용합니다.
 - 불필요한 stash는 `git drop`이나 `git stash clear`로 제거할 수 있습니다.
 
+[Git Stash에 대해 자세히 알아보기](#git-stash-1)
+
 ### Git Reset
 
 - `git reset`을 사용하여 커밋을 초기화할 수 있습니다.
 - 주로 실수로 커밋한 지저분한 코드를 수정할 때 유용합니다.
 - `git reset --soft HEAD~1`을 사용하여 최근 커밋을 초기화하면서 변경 사항을 유지할 수 있습니다.
+
+[Git Reset에 대해 자세히 알아보기](#git-reset-1)
 
 ### Git Merge
 
@@ -77,6 +88,8 @@ git merge feature
 
 `git merge`는 fast-forward, no-fast-forward, squash 등 다양한 옵션을 제공하며, 실무에서는 주로 기능 개발의 완료나 배포 전략에 활용됩니다.
 
+[Git Merge에 대해 자세히 알아보기](#git-merge-1)
+
 ### Git Rebase
 
 가장 유용하게 사용하고 있는 명령어입니다. `git rebase` 명령어는 주로 커밋 로그를 다루기 위해 사용되며, 기능 브랜치를 메인 코드 베이스에 병합하기 전 로그를 정리할 수 있습니다. 기본적인 사용법은 다음과 같습니다:
@@ -88,16 +101,13 @@ git rebase main_branch
 
 충돌이 발생하면 충돌을 해결하고 계속 진행합니다. `rebase` 후에는 fast-forward 병합을 통해 선형 로그를 유지할 수 있습니다.
 
+[Git Rebase에 대해 자세히 알아보기](#git-rebase-1)
+
 ### Git Reflog
 
 `git reflog` 명령어는 Git의 내부 로그로 HEAD와 브랜치의 변경 이력을 확인할 수 있습니다. 주로 **실수로 삭제한 커밋을 복구**하거나, `rebase` 등으로 인한 문제를 해결하는 데 활용됩니다. 커밋을 복구하려면 `git reset --hard HEAD@{n}` 명령어를 사용하면 됩니다. 주의: `git reflog`는 로컬 저장소에만 존재하므로 복구 후에는 강제 푸시가 필요할 수 있습니다.
 
-### 커밋을 수정하는 방법
-
-- `git commit --amend`를 사용하여 최신 로그 메시지를 변경할 수 있습니다.
-- `git commit --amend`를 사용하여 가장 최근 커밋을 수정할 수 있습니다.
-- `git rebase`를 사용하여 커밋을 합치고 로그를 수정할 수 있습니다.
-- `git rebase -i`를 사용하면 로그 수정 시 표준 `git rebase`보다 훨씬 정밀한 제어가 가능할 수 있습니다.
+[Git Reflog에 대해 자세히 알아보기](#git-reflog-1)
 
 </details>
 

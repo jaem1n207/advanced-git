@@ -49,6 +49,9 @@
 
 ## 요약
 
+<details>
+<summary>자세히 보려면 클릭하세요</summary>
+
 ### Git Stash
 
 - `git stash`를 사용하여 작업을 저장하고 나중에 불러올 수 있습니다.
@@ -95,6 +98,8 @@ git rebase main_branch
 - `git commit --amend`를 사용하여 가장 최근 커밋을 수정할 수 있습니다.
 - `git rebase`를 사용하여 커밋을 합치고 로그를 수정할 수 있습니다.
 - `git rebase -i`를 사용하면 로그 수정 시 표준 `git rebase`보다 훨씬 정밀한 제어가 가능할 수 있습니다.
+
+</details>
 
 ## Git Stash
 

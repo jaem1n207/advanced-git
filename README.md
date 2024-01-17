@@ -42,10 +42,10 @@
   - [Squash 병합](#squash-%EB%B3%91%ED%95%A9)
   - [실무에서의 사용 예시](#%EC%8B%A4%EB%AC%B4%EC%97%90%EC%84%9C%EC%9D%98-%EC%82%AC%EC%9A%A9-%EC%98%88%EC%8B%9C-1)
 - [Git Rebase](#git-rebase-1)
-- [Git Reflog](#git-reflog-1)
-- [상황에 맞게 사용하는 Merge, Rebase, Squash](#%EC%83%81%ED%99%A9%EC%97%90-%EB%A7%9E%EA%B2%8C-%EC%82%AC%EC%9A%A9%ED%95%98%EB%8A%94-merge-rebase-squash)
 - [마지막 커밋을 수정하는 방법](#%EB%A7%88%EC%A7%80%EB%A7%89-%EC%BB%A4%EB%B0%8B%EC%9D%84-%EC%88%98%EC%A0%95%ED%95%98%EB%8A%94-%EB%B0%A9%EB%B2%95)
 - [여러 개의 커밋 메시지를 수정하고 싶은 경우](#%EC%97%AC%EB%9F%AC-%EA%B0%9C%EC%9D%98-%EC%BB%A4%EB%B0%8B-%EB%A9%94%EC%8B%9C%EC%A7%80%EB%A5%BC-%EC%88%98%EC%A0%95%ED%95%98%EA%B3%A0-%EC%8B%B6%EC%9D%80-%EA%B2%BD%EC%9A%B0)
+- [Git Reflog](#git-reflog-1)
+- [상황에 맞게 사용하는 Merge, Rebase, Squash](#%EC%83%81%ED%99%A9%EC%97%90-%EB%A7%9E%EA%B2%8C-%EC%82%AC%EC%9A%A9%ED%95%98%EB%8A%94-merge-rebase-squash)
 - [마무리](#%EB%A7%88%EB%AC%B4%EB%A6%AC)
 - [참고](#%EC%B0%B8%EA%B3%A0)
 
@@ -521,53 +521,6 @@ git rebase -i <base>
 
 `rebase`는 기존의 커밋을 재사용하는 것이 아니라, 내용이 같은 커밋을 새로 만들기 때문에 강제 푸시할 때 항상 주의해야 합니다. 물론 이후 설명할 [git reflog](#git-reflog)를 사용하면 커밋을 복원하고 전체 rebase를 실행 취소할 수 있습니다.
 
-## Git Reflog
-
-`git reflog` 명령어는 **Git의 내부 로그인 reflog를 확인**할 수 있게 해주며, 이는 모든 HEAD의 변경사항과 브랜치의 업데이트를 기록합니다. 이 명령어는 실수로 커밋을 잃어버렸거나 `rebase`와 같은 작업으로 인해 커밋이 사라진 것처럼 보일 때 이를 복구하는 데 유용하게 사용할 수 있습니다.
-
-예를 들어, `rebase`를 실행했는데 중요한 커밋을 잘못 삭제했다고 가정해 봅시다. 이런 경우 `git reflog`를 사용하여 삭제된 커밋을 찾아 복구할 수 있습니다.
-
-먼저 `git reflog`를 실행하여 최근에 변경된 HEAD의 목록을 확인합니다.
-
-```bash
-git reflog
-```
-
-출력 결과는 다음과 같을 수 있습니다:
-
-```bash
-1c002dd (HEAD -> main, origin/main, origin/HEAD) HEAD@{0}: merge feat/1: Fast-forward
-ab1c2ef HEAD@{1}: commit: Fix typo in README
-...
-d34db33 HEAD@{5}: rebase (start): checkout main
-c0ffee1 HEAD@{6}: commit: Add feature 1
-...
-```
-
-여기서 `HEAD@{6}`은 `Add feature 1`라는 메시지를 가진 커밋을 나타냅니다. 이 커밋을 잘못 삭제했다면, 해당 커밋으로 되돌아갈 수 있습니다.
-`HEAD@{6}` 형식에 대해 조금 더 자세히 설명해 보자면, `HEAD@{6}`은 "여섯 번 이동하기 전에 HEAD가 있던 곳", `master@{one.week.ago}`는 "이 로컬 레포에서 일주일 전에 master가 가리키던 곳" 등을 의미합니다. 자세한 건 [git revisions](https://git-scm.com/docs/gitrevisions)를 참고해 주세요.
-
-```bash
-git rebase --abort
-```
-
-위 명령어로 `rebase`를 취소할 수 없는 경우에는 `git reflog`를 사용하여 `rebase` 이전 상태로 되돌아갈 수 있습니다.
-
-```bash
-git reset --hard HEAD@{n}
-```
-
-여기서 `n`은 `rebase`를 시작하기 전의 `HEAD` 위치입니다.
-
-`git reflog`는 기본적으로 **로컬 저장소에만 존재**하며, 원격 저장소에는 반영되지 않습니다. 따라서 로컬에서 실수로 커밋을 잃어버렸을 때 복구하는 데 유용합니다. 하지만 `git reflog`를 사용하여 복구한 후에는 원격 저장소에 강제 푸시(`git push --force`)를 해야 할 수도 있으니 마찬가지로 주의가 필요합니다.
-
-## 상황에 맞게 사용하는 Merge, Rebase, Squash
-
-> [!NOTE]  
-> **스쿼시**는 여러 개의 커밋 기록을 하나의 커밋 기록으로 합치는 방법입니다. 주로 팀원들과 PR에서 변경 사항에 대해 논의하기 전에 커밋 기록을 정리하고 단순화하는 데 사용합니다.
-
-WIP...
-
 ## 마지막 커밋을 수정하는 방법
 
 보통 커밋 로그를 관리하는 일 중 **마지막 커밋을 수정**하는 상황이 가장 잦습니다.(저만 그런 걸수도 있고요) 크게 두 가지로 나눌 수 있습니다:
@@ -657,6 +610,53 @@ git rebase -i ${수정할 커밋의 이전 커밋}
 <p align="center">
   <img width='480' src="./images/rebase/rebase-finish.webp">
 </p>
+
+## Git Reflog
+
+`git reflog` 명령어는 **Git의 내부 로그인 reflog를 확인**할 수 있게 해주며, 이는 모든 HEAD의 변경사항과 브랜치의 업데이트를 기록합니다. 이 명령어는 실수로 커밋을 잃어버렸거나 `rebase`와 같은 작업으로 인해 커밋이 사라진 것처럼 보일 때 이를 복구하는 데 유용하게 사용할 수 있습니다.
+
+예를 들어, `rebase`를 실행했는데 중요한 커밋을 잘못 삭제했다고 가정해 봅시다. 이런 경우 `git reflog`를 사용하여 삭제된 커밋을 찾아 복구할 수 있습니다.
+
+먼저 `git reflog`를 실행하여 최근에 변경된 HEAD의 목록을 확인합니다.
+
+```bash
+git reflog
+```
+
+출력 결과는 다음과 같을 수 있습니다:
+
+```bash
+1c002dd (HEAD -> main, origin/main, origin/HEAD) HEAD@{0}: merge feat/1: Fast-forward
+ab1c2ef HEAD@{1}: commit: Fix typo in README
+...
+d34db33 HEAD@{5}: rebase (start): checkout main
+c0ffee1 HEAD@{6}: commit: Add feature 1
+...
+```
+
+여기서 `HEAD@{6}`은 `Add feature 1`라는 메시지를 가진 커밋을 나타냅니다. 이 커밋을 잘못 삭제했다면, 해당 커밋으로 되돌아갈 수 있습니다.
+`HEAD@{6}` 형식에 대해 조금 더 자세히 설명해 보자면, `HEAD@{6}`은 "여섯 번 이동하기 전에 HEAD가 있던 곳", `master@{one.week.ago}`는 "이 로컬 레포에서 일주일 전에 master가 가리키던 곳" 등을 의미합니다. 자세한 건 [git revisions](https://git-scm.com/docs/gitrevisions)를 참고해 주세요.
+
+```bash
+git rebase --abort
+```
+
+위 명령어로 `rebase`를 취소할 수 없는 경우에는 `git reflog`를 사용하여 `rebase` 이전 상태로 되돌아갈 수 있습니다.
+
+```bash
+git reset --hard HEAD@{n}
+```
+
+여기서 `n`은 `rebase`를 시작하기 전의 `HEAD` 위치입니다.
+
+`git reflog`는 기본적으로 **로컬 저장소에만 존재**하며, 원격 저장소에는 반영되지 않습니다. 따라서 로컬에서 실수로 커밋을 잃어버렸을 때 복구하는 데 유용합니다. 하지만 `git reflog`를 사용하여 복구한 후에는 원격 저장소에 강제 푸시(`git push --force`)를 해야 할 수도 있으니 마찬가지로 주의가 필요합니다.
+
+## 상황에 맞게 사용하는 Merge, Rebase, Squash
+
+> [!NOTE]  
+> **스쿼시**는 여러 개의 커밋 기록을 하나의 커밋 기록으로 합치는 방법입니다. 주로 팀원들과 PR에서 변경 사항에 대해 논의하기 전에 커밋 기록을 정리하고 단순화하는 데 사용합니다.
+
+WIP...
 
 ## 마무리
 

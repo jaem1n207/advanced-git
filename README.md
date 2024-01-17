@@ -258,7 +258,10 @@ git commit -m "특정 파일 추가"
 ```bash
 $ git log
 
-* 667aa60 (HEAD -> main, origin/main, origin/HEAD) Increase width of box to 200px
+* f9965b5 (HEAD -> main) 그냥 채워넣는 커밋2
+* a26733d 그냥 채워넣는 커밋
+* 6dc333a :memo: Update docs
+* 667aa60 (origin/main, origin/HEAD) Increase width of box to 200px
 * fefbd00 Remove animation from red box
 * cb09d2a 의도치 않는 버그 코드 삽입
 * 79381ec Add animation to the blue box

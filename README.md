@@ -23,6 +23,7 @@
   - [커밋을 수정하는 방법](#%EC%BB%A4%EB%B0%8B%EC%9D%84-%EC%88%98%EC%A0%95%ED%95%98%EB%8A%94-%EB%B0%A9%EB%B2%95)
   - [Git Stash](#git-stash)
   - [Git Reset](#git-reset)
+  - [Git Bisect](#git-bisect)
   - [Git Merge](#git-merge)
   - [Git Rebase](#git-rebase)
   - [Git Reflog](#git-reflog)
@@ -32,7 +33,7 @@
   - [--hard 옵션](#--hard-%EC%98%B5%EC%85%98)
   - [--mixed 옵션](#--mixed-%EC%98%B5%EC%85%98)
   - [실무에서의 사용 예시](#%EC%8B%A4%EB%AC%B4%EC%97%90%EC%84%9C%EC%9D%98-%EC%82%AC%EC%9A%A9-%EC%98%88%EC%8B%9C)
-- [Git Bisect](#git-bisect)
+- [Git Bisect](#git-bisect-1)
 - [Git Merge](#git-merge-1)
   - [기본 사용법](#%EA%B8%B0%EB%B3%B8-%EC%82%AC%EC%9A%A9%EB%B2%95)
   - [충돌 해결](#%EC%B6%A9%EB%8F%8C-%ED%95%B4%EA%B2%B0)
@@ -80,6 +81,19 @@
 - `git reset --soft HEAD~1`을 사용하여 최근 커밋을 초기화하면서 변경 사항을 유지할 수 있습니다.
 
 [Git Reset에 대해 자세히 알아보기](#git-reset-1)
+
+### Git Bisect
+
+`git bisect`를 사용하면 복잡한 코드베이스에서 문제가 발생한 커밋을 효과적으로 찾아낼 수 있습니다.
+
+1. 버그가 없었던 마지막 커밋을 찾습니다.
+2. 버그가 있는 현재 상태의 커밋을 확인합니다.
+3. `git bisect`를 시작하여 좋은 커밋과 나쁜 커밋을 지정합니다.
+4. 자동으로 `checkout` 된 커밋에서 테스트 스크립트를 실행하거나 수동으로 버그를 확인합니다.
+5. 테스트 결과에 따라 해당 커밋을 좋은 상태 또는 나쁜 상태로 표시합니다.
+6. 버그를 도입한 커밋을 찾으면 `git bisect reset`을 실행하여 `bisect` 세션을 종료합니다.
+
+[Git Reset에 대해 자세히 알아보기](#git-bisect-1)
 
 ### Git Merge
 
@@ -269,8 +283,6 @@ $ git log
 ...
 ```
 
-'좋은' 커밋(`e81d361`)을 찾았습니다. 매우 간단한 예시라 두 커밋 사이의 간격이 크지 않습니다. 실제 상황에선 훨씬 간격이 큰 경우가 많을 겁니다. 간격이 큰 경우 번거롭긴 하겠지만, 대부분의 경우 문제를 발견할 수 있을 겁니다.
-
 이제 `bisect`를 시작하고 git에 나쁜 커밋과 좋은 커밋을 알리도록 하겠습니다.
 
 ```bash
@@ -278,32 +290,79 @@ $ git bisect start
 $ git bisect bad          # 현재 HEAD가 버그가 있는 상태로 가정
 $ git bisect good e81d361 # 버그가 없었던 마지막 알려진 커밋
 
-# 아래 메시지가 출력됩니다.
-이등분: (대략 1 단계) 뒤에 시험할 리비전이 1개 남았습니다
-[cb09d2a1b41c4e74f7a8f717eb4439e205f85fa4] 의도치 않는 버그 코드 삽입
+이등분: (대략 2 단계) 뒤에 시험할 리비전이 3개 남았습니다
+[667aa609bf57864efa1118c63cc6b9260f5e2adf] Increase width of box to 200px
 ```
 
 이후 `git bisect`는 자동으로 중간 지점의 커밋으로 `checkout`하고, 해당 상태에서 버그를 테스트하도록 요청합니다. 버그가 재현되면 '나쁜' 상태로, 그렇지 않으면 '좋은' 상태로 표시합니다. `git bisect`는 이 정보를 바탕으로 다음 테스트할 커밋을 선택하고, 이 과정을 반복하여 버그를 도입한 커밋을 찾아냅니다.
-
-`git bisect`를 시작하고 나서 웹 페이지를 확인해보니 빨간색으로 나오네요.
 
 ```bash
 git bisect bad  # 현재 커밋에서 버그가 발견되면
 git bisect good # 현재 커밋에서 버그가 없으면
 ```
 
-`git bisect`를 사용하면 복잡한 코드베이스에서 버그를 효과적으로 찾아낼 수 있습니다.
+이 상황에선 `box` 요소의 배경 색상을 웹 페이지에서 확인하며 커밋 상태를 깃에게 알리면 되겠죠.
 
-1. 버그가 없었던 마지막 알려진 커밋을 찾습니다.
-2. 버그가 있는 현재 상태의 커밋을 확인합니다.
-3. `git bisect`를 시작하여 좋은 커밋과 나쁜 커밋을 지정합니다.
-4. 자동으로 `checkout` 된 커밋에서 테스트 스크립트를 실행하거나 수동으로 버그를 확인합니다.
-5. 테스트 결과에 따라 해당 커밋을 좋은 상태 또는 나쁜 상태로 표시합니다.
-6. 버그를 도입한 커밋을 찾으면 `git bisect reset`을 실행하여 `bisect` 세션을 종료합니다.
+웹 페이지를 새로고침하고 문제가 사라졌는지 확인합니다.
+
+<p align="center">
+  <img width='480' src="./images/bisect/bug-box.webp">
+</p>
+
+문제가 여전히 존재하므로 `git bisect bad`를 실행하여 git에 여전히 문제가 있는 커밋임을 알립니다. 배경색이 빨간색이 아니었던 커밋을 찾을 때까지 이 과정을 반복합니다.
+
+```bash
+$ git bisect bad
+
+# git이 올바른 커밋을 찾기 전에 검색해야 하는 커밋 수를 알려줍니다.
+이등분: (대략 1 단계) 뒤에 시험할 리비전이 1개 남았습니다
+[cb09d2a1b41c4e74f7a8f717eb4439e205f85fa4] 의도치 않는 버그 코드 삽입
+...
+$ git bisect bad
+
+이등분: (대략 0 단계) 뒤에 시험할 리비전이 0개 남았습니다
+[79381ec656cfc7b3b1fc60fa8c468c2f0eaa9299] Add animation to the blue box
+```
+
+... 그리고 웹 페이지 새로고침...
+
+<p align="center">
+  <img width='480' src="./images/bisect/good-box.webp">
+</p>
+
+박스 배경 색상이 더 이상 빨간색이 아니므로 좋은 커밋입니다. `git bisect good`을 실행합니다:
+
+```bash
+$ git bisect good
+
+cb09d2a1b41c4e74f7a8f717eb4439e205f85fa4 is the first bad commit
+commit cb09d2a1b41c4e74f7a8f717eb4439e205f85fa4
+Author: jaem1n207 <roy.jm.lee@gmail.com>
+Date:   Wed Jan 17 15:13:37 2024 +0900
+
+    의도치 않는 버그 코드 삽입
+
+ index.html | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+```
+
+이제 `git show`를 사용하여 커밋을 확인하고 문제를 파악할 수 있습니다:
+
+```bash
+$ git show cb09d2a1b41c4e74f7a8f717eb4439e205f85fa4
+```
+
+<p align="center">
+  <img width='480' src="./images/bisect/bad-commit.webp">
+</p>
+
+작업이 끝나면 `git bisect reset`을 실행해 브랜치를 원래 상태로 되돌립니다:
 
 ```bash
 git bisect reset # bisect 섹션 종료
 ```
+
+매우 간단한 예시라 두 커밋 사이의 간격이 크지 않습니다. 실제 상황에선 훨씬 간격이 큰 경우가 많을 겁니다. 간격이 큰 경우 번거롭긴 하겠지만, 대부분의 경우 문제를 발견할 수 있습니다.
 
 이 과정을 통해 문제가 되는 커밋을 빠르게 찾아 문제를 해결하고, 해당 버그가 어떻게 코드에 포함되었는지 알 수 있습니다. 이는 팀 내에서 코드 리뷰를 진행하거나, 향후 비슷한 문제를 방지하기 위해 활용될 수 있습니다.
 <small>물론 가장 좋은 것은 이 기능을 사용하는 일이 없는 것입니다.</small>

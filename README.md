@@ -93,7 +93,7 @@
 5. 테스트 결과에 따라 해당 커밋을 좋은 상태 또는 나쁜 상태로 표시합니다.
 6. 버그를 도입한 커밋을 찾으면 `git bisect reset`을 실행하여 `bisect` 세션을 종료합니다.
 
-[Git Reset에 대해 자세히 알아보기](#git-bisect-1)
+[Git Bisect에 대해 자세히 알아보기](#git-bisect-1)
 
 ### Git Merge
 

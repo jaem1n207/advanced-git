@@ -42,6 +42,7 @@
   - [Squash 병합](#squash-%EB%B3%91%ED%95%A9)
   - [실무에서의 사용 예시](#%EC%8B%A4%EB%AC%B4%EC%97%90%EC%84%9C%EC%9D%98-%EC%82%AC%EC%9A%A9-%EC%98%88%EC%8B%9C-1)
 - [Git Rebase](#git-rebase-1)
+- [Git Squash](#git-squash)
 - [마지막 커밋을 수정하는 방법](#%EB%A7%88%EC%A7%80%EB%A7%89-%EC%BB%A4%EB%B0%8B%EC%9D%84-%EC%88%98%EC%A0%95%ED%95%98%EB%8A%94-%EB%B0%A9%EB%B2%95)
 - [여러 개의 커밋 메시지를 수정하고 싶은 경우](#%EC%97%AC%EB%9F%AC-%EA%B0%9C%EC%9D%98-%EC%BB%A4%EB%B0%8B-%EB%A9%94%EC%8B%9C%EC%A7%80%EB%A5%BC-%EC%88%98%EC%A0%95%ED%95%98%EA%B3%A0-%EC%8B%B6%EC%9D%80-%EA%B2%BD%EC%9A%B0)
 - [Git Reflog](#git-reflog-1)
@@ -338,7 +339,6 @@ $ git bisect good
 cb09d2a1b41c4e74f7a8f717eb4439e205f85fa4 is the first bad commit
 commit cb09d2a1b41c4e74f7a8f717eb4439e205f85fa4
 Author: jaem1n207 <roy.jm.lee@gmail.com>
-Date:   Wed Jan 17 15:13:37 2024 +0900
 
     의도치 않는 버그 코드 삽입
 
@@ -520,6 +520,10 @@ git rebase -i <base>
 `-i` 플래그를 사용해 `git rebase`를 실행하면 편집기를 이용해 프로세스의 커밋을 개별적으로 변경할 수 있습니다. 이렇게 하면 기존 커밋을 제거, 분할 및 변경하는 등 로그를 정리할 수 있습니다.
 
 `rebase`는 기존의 커밋을 재사용하는 것이 아니라, 내용이 같은 커밋을 새로 만들기 때문에 강제 푸시할 때 항상 주의해야 합니다. 물론 이후 설명할 [git reflog](#git-reflog)를 사용하면 커밋을 복원하고 전체 rebase를 실행 취소할 수 있습니다.
+
+## Git Squash
+
+`squash`는 PR의 모든 커밋을 합쳐서 하나의 커밋으로 만들어 줍니다.
 
 ## 마지막 커밋을 수정하는 방법
 
